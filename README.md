@@ -1,5 +1,7 @@
 # Google Web Payment Demo from Home24
 
+[Demo link](https://sergeyshvager.github.io/React-Form-Builder/#/product/)
+
 To run project
 `npm start`
 
@@ -10,8 +12,8 @@ To build project
 
 
 Store structure
-
-`{
+```javascript
+{
     adminPanel: {
         selectedPageIndex: 0,
         product: {}
@@ -28,4 +30,5 @@ Store structure
             }]
         }
     }]
-}`
+}
+```
