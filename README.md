@@ -11,7 +11,7 @@ To build project
 
 
 
-Store structure
+###Store structure
 ```javascript
 {
     adminPanel: {
