@@ -1,0 +1,19 @@
+.page-thumbnails {
+  height: 300px;
+  overflow-x: scroll;
+  border-bottom: 1px solid silver;
+}
+
+.page-thumbnail {
+  display: inline-block;
+  width: 100px;
+  height: 150px;
+
+  border: 1px solid silver;
+
+  margin: 3px;
+
+  &--selected {
+    border-color: coral;
+  }
+}
