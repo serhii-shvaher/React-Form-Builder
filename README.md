@@ -1,4 +1,6 @@
-# Google Web Payment Demo from Home24
+# React Form Builder
+In progress...
+[Demo link](https://sergeyshvager.github.io/React-Form-Builder/#/product/)
 
 To run project
 `npm start`
@@ -9,9 +11,9 @@ To build project
 
 
 
-Store structure
-
-`{
+###Store structure
+```javascript
+{
     adminPanel: {
         selectedPageIndex: 0,
         product: {}
@@ -28,4 +30,5 @@ Store structure
             }]
         }
     }]
-}`
+}
+```
