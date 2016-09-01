@@ -3,19 +3,18 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-
+import Immutable from 'immutable';
 //import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './containers/app';
-import EditProduct from './containers/pages/edit-product';
+import EditProduct from './containers/pages/admin-panel/edit-product';
 import configureStore from './store/configure-store';
 import 'es6-promise';
 
 import './../assets/styles/main.scss';
 
-const store = configureStore({
-    products: []
-});
+const store = configureStore(Immutable.Map({
+}));
 const history = syncHistoryWithStore(hashHistory, store);
 
 //injectTapEventPlugin();

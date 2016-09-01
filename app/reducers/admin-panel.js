@@ -1,6 +1,17 @@
 import uuid from 'uuid';
+import findIndex from 'lodash/findIndex';
 
-import { PRODUCT_ADD_PAGE, PRODUCT_DELETE_PAGE, PRODUCT_SELECT_PAGE, PRODUCT_PAGE_SET_TITLE, PRODUCT_PAGE_ADD_INPUT } from './../actions/product';
+import {
+    PRODUCT_ADD_PAGE,
+    PRODUCT_DELETE_PAGE,
+    PRODUCT_SELECT_PAGE,
+    PRODUCT_PAGE_SET_TITLE,
+    PRODUCT_PAGE_ADD_INPUT,
+    PRODUCT_PAGE_ADD_TEXTAREA
+} from './../actions/product';
+
+import { ELEMENT_SET_TITLE, ELEMENT_SET_PLACEHOLDER } from './../actions/element';
+
 const defaultState = {
     product: {
         pages: [{
@@ -33,7 +44,8 @@ export default function (state = defaultState, action) {
             return Object.assign({}, state, {
                 product: {
                     pages
-                }
+                },
+                selectedPageIndex: Math.min(pages.length - 1, state.selectedPageIndex)
             });
 
         case PRODUCT_SELECT_PAGE:
@@ -51,9 +63,10 @@ export default function (state = defaultState, action) {
             });
 
         case PRODUCT_PAGE_ADD_INPUT:
+        case PRODUCT_PAGE_ADD_TEXTAREA:
             pages[state.selectedPageIndex].elements.push({
                 id: uuid.v4(),
-                type: 'input',
+                type: action.elementType,
                 title: 'title',
                 placeholder: 'placeholder'
             });
@@ -63,6 +76,20 @@ export default function (state = defaultState, action) {
                     pages
                 }
             });
+
+        case ELEMENT_SET_TITLE:
+        case ELEMENT_SET_PLACEHOLDER:
+            const elementIndex = findIndex(pages[state.selectedPageIndex].elements, { id: action.elementID });
+            pages[state.selectedPageIndex].elements[elementIndex][action.option]= action[action.option];
+
+            return Object.assign({}, state, {
+                product: {
+                    pages
+                }
+            });
+
+
+
 
         default:
             return state;

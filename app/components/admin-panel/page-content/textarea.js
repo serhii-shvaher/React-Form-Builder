@@ -42,11 +42,11 @@ export default React.createClass({
         });
     },
     render() {
-        const { title, placeholder } = this.props;
+        const { placeholder } = this.props;
         return (
             <div className="page-content_input">
                 {this.getLabel()}
-                <input value={placeholder} onChange={this.onPlaceholderChange}/>
+                <textarea value={placeholder} onChange={this.onPlaceholderChange}/>
             </div>
         );
     }

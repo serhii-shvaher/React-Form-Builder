@@ -1,8 +1,7 @@
 // @flow
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducer from '../reducers';
-import { routerReducer } from 'react-router-redux';
 
 const createStoreWithMiddleware = compose(
     applyMiddleware(thunk),
@@ -11,10 +10,6 @@ const createStoreWithMiddleware = compose(
 
 
 function configureStore(initialState: Object) {
-
-    const reducers = combineReducers({
-        reducer
-    });
     const store = createStoreWithMiddleware(reducer, initialState);
 
     if (module.hot) {
