@@ -1,6 +1,6 @@
 # React Form Builder
 In progress...
-[Demo link](https://sergeyshvager.github.io/React-Form-Builder/#/product/)
+[Demo link](https://sergeyshvager.github.io/React-Form-Builder)
 
 To run project
 `npm start`
