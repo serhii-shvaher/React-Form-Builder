@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import EditProduct from './../../../components/admin-panel/admin-panel';
-import EditProductSelector from './../../../selectors/pages/admin-panel/edit-product';
-import { setElementTitle, setElementPlaceholder } from './../../../actions/element';
+import EditProduct from './../../components/admin-panel/admin-panel';
+import EditProductSelector from './../../selectors/pages/edit-product';
+import { setElementTitle, setElementPlaceholder } from './../../actions/element';
 
 import {
     addPage,
@@ -13,7 +13,7 @@ import {
     selectPage,
     setProductName,
     setPageTitle,
-} from './../../../actions/product';
+} from './../../actions/product';
 
 
 

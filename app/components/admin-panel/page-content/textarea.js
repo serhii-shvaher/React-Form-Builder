@@ -16,7 +16,7 @@ export default React.createClass({
         const { title } = this.props;
 
         if (isLabelEditing) {
-            return <input autoFocus value={title} onBlur={this.onTitleBlur} onChange={this.onTitleChange} />;
+            return <input autoFocus type="text" value={title} onBlur={this.onTitleBlur} onChange={this.onTitleChange} />;
         }
 
         return <label onClick={this.onLabelClick}>{title}</label>;

@@ -51,7 +51,7 @@ const common = {
 if (TARGET === 'start' || !TARGET) {
 
     module.exports = merge(common, {
-        devtool: 'cheap-module-eval-source-map',
+        devtool: 'eval',//'cheap-module-eval-source-map',
         module: {
             loaders: [{
                 test: /\.css|\.scss$/,

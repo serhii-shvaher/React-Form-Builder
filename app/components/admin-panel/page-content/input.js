@@ -4,7 +4,7 @@ export default React.createClass({
     propTypes: {
         id: React.PropTypes.string,
         setElementTitle: React.PropTypes.func,
-        setElementPlaceholder: React.PropTypes.func,
+        setElementPlaceholder: React.PropTypes.func
     },
     getInitialState() {
         return {
@@ -16,10 +16,10 @@ export default React.createClass({
         const { title } = this.props;
 
         if (isLabelEditing) {
-            return <input autoFocus value={title} onBlur={this.onTitleBlur} onChange={this.onTitleChange} />;
+            return <input autoFocus type="text" value={title} onBlur={this.onTitleBlur} onChange={this.onTitleChange} />;
         }
 
-        return <label onClick={this.onLabelClick}>{title}</label>;
+        return <label onFocus={this.editLabel} onClick={this.editLabel}>{title}</label>;
 
     },
     onPlaceholderChange(event) {
@@ -36,7 +36,7 @@ export default React.createClass({
         this.props.setElementTitle(this.props.id, event.target.value);
     },
 
-    onLabelClick(e) {
+    editLabel(e) {
         this.setState({
             isLabelEditing: true
         });
@@ -46,7 +46,7 @@ export default React.createClass({
         return (
             <div className="page-content_input">
                 {this.getLabel()}
-                <input value={placeholder} onChange={this.onPlaceholderChange}/>
+                <input type="text" value={placeholder} onChange={this.onPlaceholderChange}/>
             </div>
         );
     }

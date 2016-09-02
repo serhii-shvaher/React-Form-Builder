@@ -1,0 +1,19 @@
+.product-list-view {
+  padding: 20px;
+}
+
+.product-list {
+  padding: 20px;
+  width: 400px;
+  border: 1px solid firebrick;
+}
+
+.product-list-item {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+
+  &:nth-child(odd) {
+    background: #f4f4f4;
+  }
+}

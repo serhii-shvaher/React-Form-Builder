@@ -8,10 +8,14 @@ export default React.createClass({
 
     render() {
         const { products } = this.props;
+
+        if (!products.length) {
+            return <p>No products yet...</p>
+        }
         return (
-            <div>
+            <div className="product-list">
                 <h2>Product list</h2>
-                {products.map(product => <ProductItem product={product} />)}
+                {products.map((product, index) => <ProductItem key={index} product={product} />)}
             </div>
         );
     }
