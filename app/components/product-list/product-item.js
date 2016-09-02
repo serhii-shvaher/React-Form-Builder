@@ -14,7 +14,6 @@ export default React.createClass({
 
         const url = `data:text/yaml;base64,${yamlTextBase64}`;
 
-        console.log(yamlText);
         window.open(url);
     },
 
