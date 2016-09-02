@@ -10,7 +10,7 @@ export default React.createClass({
         const { products } = this.props;
 
         if (!products.length) {
-            return <p>No products yet...</p>
+            return (<p>No products yet...</p>);
         }
         return (
             <div className="product-list">
