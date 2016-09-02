@@ -4,7 +4,7 @@ import './pages-panel.scss';
 
 export default React.createClass({
     propTypes: {
-        pages: React.PropTypes.array,
+        pages: React.PropTypes.object,
         selectedPageIndex: React.PropTypes.number,
         addPage: React.PropTypes.func,
         deletePage: React.PropTypes.func,
@@ -12,14 +12,14 @@ export default React.createClass({
     },
     getInitialState() {
         return {
-            minPagesNumber: this.props.pages.length
+            minPagesNumber: this.props.pages.size
         }
     },
     onPageCountChanged(event) {
         const { pages } = this.props;
         const pageAmount = event.target.valueAsNumber;
 
-        if (pageAmount > pages.length) {
+        if (pageAmount > pages.size) {
             this.props.addPage();
         } else {
             this.props.deletePage();
@@ -31,21 +31,22 @@ export default React.createClass({
     getPagePreviews() {
         const { pages, selectedPageIndex } = this.props;
 
-        return pages.map((page, index) =>
-            <PageThumbnail
+        return pages.map((page, index) => {
+
+            return <PageThumbnail
                 key={index}
                 page={page}
                 pageIndex={index}
                 isSelected={index === selectedPageIndex}
                 onClick={this.onPageClick}
-            />)
+            /> })
 
     },
     render() {
         const { pages } = this.props;
         const { minPagesNumber } = this.state;
 
-        const pagesCount = pages.length;
+        const pagesCount = pages.size;
 
         return (
             <div>

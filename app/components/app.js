@@ -8,7 +8,7 @@ export default React.createClass({
     name: 'App',
 
     propTypes: {
-        products: React.PropTypes.array.isRequired
+        products: React.PropTypes.object
     },
 
     render() {

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default React.createClass({
     propTypes: {
-        id: React.PropTypes.string,
+        element: React.PropTypes.object,
         setElementTitle: React.PropTypes.func,
         setElementPlaceholder: React.PropTypes.func
     },
@@ -13,17 +13,17 @@ export default React.createClass({
     },
     getLabel() {
         const { isLabelEditing } = this.state;
-        const { title } = this.props;
+        const { element } = this.props;
 
         if (isLabelEditing) {
-            return <input autoFocus type="text" value={title} onBlur={this.onTitleBlur} onChange={this.onTitleChange} />;
+            return <input autoFocus type="text" value={element.get('title')} onBlur={this.onTitleBlur} onChange={this.onTitleChange} />;
         }
 
-        return <label onFocus={this.editLabel} onClick={this.editLabel}>{title}</label>;
+        return <label onFocus={this.editLabel} onClick={this.editLabel}>{element.get('title')}</label>;
 
     },
     onPlaceholderChange(event) {
-        this.props.setElementPlaceholder(this.props.id, event.target.value);
+        this.props.setElementPlaceholder(this.props.element.get('id'), event.target.value);
     },
 
     onTitleBlur(e) {
@@ -33,7 +33,7 @@ export default React.createClass({
     },
 
     onTitleChange(event) {
-        this.props.setElementTitle(this.props.id, event.target.value);
+        this.props.setElementTitle(this.props.element.get('id'), event.target.value);
     },
 
     editLabel(e) {
@@ -42,11 +42,12 @@ export default React.createClass({
         });
     },
     render() {
-        const { title, placeholder } = this.props;
+        const { element } = this.props;
+
         return (
             <div className="page-content_input">
                 {this.getLabel()}
-                <input type="text" value={placeholder} onChange={this.onPlaceholderChange}/>
+                <input type="text" value={element.get('placeholder')} onChange={this.onPlaceholderChange}/>
             </div>
         );
     }

@@ -4,11 +4,10 @@ import { routerReducer } from 'react-router-redux';
 import productsReducer from './products';
 import adminPanelReducer from './admin-panel';
 import uuid from 'uuid';
-
-export const localStorageKey = 'FormBuilder_store';
+import Immutable from 'immutable';
 
 const defaultState = {
-    adminPanel: {
+    adminPanel: Immutable.fromJS({
         product: {
             id: uuid.v4(),
             name: 'Product name',
@@ -18,8 +17,8 @@ const defaultState = {
             }]
         },
         selectedPageIndex: 0
-    },
-    products: []
+    }),
+    products: Immutable.List()
 };
 
 const rootReducer = (state:Object = defaultState, action:Object) => {

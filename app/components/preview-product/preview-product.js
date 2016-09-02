@@ -7,13 +7,13 @@ import './preview-product.scss';
 
 export default React.createClass({
     propTypes: {
-        products: React.PropTypes.array
+        products: React.PropTypes.object
     },
     getInitialState() {
         const { products, params } = this.props;
 
         const productIndex = findIndex(products, { id: params.id });
-        const product = products[productIndex];
+        const product = products.get(productIndex);
 
         return {
             selectedPageIndex: 0,
@@ -23,7 +23,7 @@ export default React.createClass({
     nextPage() {
         const { product, selectedPageIndex } = this.state;
 
-        if (selectedPageIndex < product.pages.length - 1) {
+        if (selectedPageIndex < product.get('pages').size - 1) {
             this.setState({
                 selectedPageIndex: selectedPageIndex + 1
             });
@@ -37,7 +37,9 @@ export default React.createClass({
             return <h2 className="preview-product-view">Product not found /(~.~)\</h2>
         }
 
-        const isLastPage = (selectedPageIndex === product.pages.length - 1);
+        const pages = product.get('pages');
+
+        const isLastPage = (selectedPageIndex === pages.size - 1);
 
         return (
             <div className="preview-product-view">
@@ -45,15 +47,15 @@ export default React.createClass({
                     <button>&#8672; Product List</button>
                 </Link>
 
-                <h1>{product.name}</h1>
+                <h1>{product.get('name')}</h1>
 
                 <ProductPagesNavigation
-                    pages={product.pages}
+                    pages={pages}
                     selectedPageIndex={selectedPageIndex}
                 />
 
                 <ProductPages
-                    pages={product.pages}
+                    pages={pages}
                     selectedPageIndex={selectedPageIndex}
                     isLastPage={isLastPage}
                     nextPage={this.nextPage}

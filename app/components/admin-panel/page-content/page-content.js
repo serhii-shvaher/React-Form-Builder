@@ -30,15 +30,15 @@ export default React.createClass({
                 <h3>Page settings</h3>
 
                 <label htmlFor="page-title">Page title</label>
-                <input id="page-title" value={page.title} onChange={this.onPageTitleChange}/>
+                <input id="page-title" value={page.get('title')} onChange={this.onPageTitleChange}/>
                 <div className="page-content_elements">
                     <h4>Page elements</h4>
-                    {page.elements.map((element, index) => {
-                        const ElementComponent = this.getElement(element.type);
+                    {page.get('elements').map((element, index) => {
+                        const ElementComponent = this.getElement(element.get('type'));
                         return (
                             <ElementComponent
                                 key={index}
-                                {...element}
+                                element={element}
                                 setElementTitle={setElementTitle}
                                 setElementPlaceholder={setElementPlaceholder}
                             />);

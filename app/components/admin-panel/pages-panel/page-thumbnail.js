@@ -20,6 +20,6 @@ export default React.createClass({
             }
         );
 
-        return <div className={classNames} onClick={this.onClick}>{page.title}</div>
+        return <div className={classNames} onClick={this.onClick}>{page.get('title')}</div>
     }
 });

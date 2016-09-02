@@ -45,7 +45,7 @@ export default React.createClass({
             setElementPlaceholder
         } = this.props;
 
-        const page = product.pages[selectedPageIndex];
+        const page = product.get('pages').get(selectedPageIndex);
 
         return (
             <div className="admin-view">
@@ -56,12 +56,12 @@ export default React.createClass({
                             <label>Page name</label>
                             <input
                                 type="text"
-                                value={product.name}
+                                value={product.get('name')}
                                 onChange={this.onProductNameChange}
                             />
 
                             <PagesPanel
-                                pages={product.pages}
+                                pages={product.get('pages')}
                                 addPage={addPage}
                                 deletePage={deletePage}
                                 selectedPageIndex={selectedPageIndex}

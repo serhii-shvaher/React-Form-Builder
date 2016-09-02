@@ -3,13 +3,13 @@ import ProductItem from './product-item';
 
 export default React.createClass({
     propTypes: {
-        products: React.PropTypes.array.isRequired
+        products: React.PropTypes.object
     },
 
     render() {
         const { products } = this.props;
 
-        if (!products.length) {
+        if (!products.size) {
             return (<p>No products yet...</p>);
         }
         return (

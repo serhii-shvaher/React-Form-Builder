@@ -2,22 +2,24 @@ import { PRODUCT_SAVE } from './../actions/product';
 import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/clone';
 import uuid from 'uuid';
-export default function (state = [], action) {
+import Immutable from 'immutable';
+
+export default function (state = Immutable.List(), action) {
     switch (action.type) {
         case PRODUCT_SAVE:
-            const products = cloneDeep(state);
-            let productIndex;
-            const product = cloneDeep(action.product);
+            const updatedProducts = {};
+            const updatedProduct = {};
 
-            if (!product.id) {
-                product.id = uuid.v4();
-                products.push(product);
+            if (!action.product.get('id')) {
+                const product = action.product.set('id', uuid.v4());
+
+                updatedProducts.v1 = state.push(product);
             } else {
-                productIndex = findIndex(products, { id: product.id });
-                products[productIndex] = product;
+                updatedProduct.v1 = state.findEntry(p => (p.get('id') === action.product.get('id')));
+                updatedProducts.v1 = state.set(updatedProduct.v1[0], Immutable.fromJS(action.product));
             }
 
-            return products;
+            return updatedProducts.v1;
 
         default:
             return state;

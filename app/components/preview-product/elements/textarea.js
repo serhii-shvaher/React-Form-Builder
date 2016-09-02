@@ -2,11 +2,11 @@ import React from 'react';
 
 export default React.createClass({
     render() {
-        const { title, placeholder } = this.props;
+        const { element } = this.props;
         return (
             <div>
-                <label>{title}</label>
-                <textarea placeholder={placeholder} />
+                <label>{element.get('title')}</label>
+                <textarea placeholder={element.get('placeholder')} />
             </div>
         )
     }

@@ -16,7 +16,7 @@ export default React.createClass({
 
     },
     getElementComponent(element) {
-        return elements[element.type];
+        return elements[element.get('type')];
     },
     getNextButton() {
         if (!this.props.isLastPage) {
@@ -27,14 +27,15 @@ export default React.createClass({
     },
     getElements() {
         const { page } = this.props;
+        const elements = page.get('elements');
 
-        if (!page.elements.length) {
+        if (!elements.size) {
             return <p>No elements, no cry (^.^)</p>
         }
 
-        return page.elements.map((element, index) => {
+        return elements.map((element, index) => {
             const Element = this.getElementComponent(element);
-            return <Element {...element} key={index}/>
+            return <Element element={element} key={index}/>
         })
     },
     render() {

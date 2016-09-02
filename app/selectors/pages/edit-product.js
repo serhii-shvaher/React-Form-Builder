@@ -1,6 +1,8 @@
 import { createStructuredSelector } from 'reselect';
 
 export default createStructuredSelector({
-    product: (state) => state.adminPanel.product,
-    selectedPageIndex: (state) => state.adminPanel.selectedPageIndex
+    product: (state) => {
+
+        return state.adminPanel.get('product'); },
+    selectedPageIndex: (state) => state.adminPanel.get('selectedPageIndex')
 });

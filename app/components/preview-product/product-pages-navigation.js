@@ -3,7 +3,7 @@ import NavigationItem from './product-pages-navigation-item';
 
 export default React.createClass({
     propTypes: {
-        pages: React.PropTypes.array
+        pages: React.PropTypes.object
     },
     render() {
         const { pages, selectedPageIndex } = this.props;

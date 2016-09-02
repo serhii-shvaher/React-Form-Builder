@@ -13,17 +13,17 @@ export default React.createClass({
     },
     getLabel() {
         const { isLabelEditing } = this.state;
-        const { title } = this.props;
+        const { element } = this.props;
 
         if (isLabelEditing) {
-            return <input autoFocus type="text" value={title} onBlur={this.onTitleBlur} onChange={this.onTitleChange} />;
+            return <input autoFocus type="text" value={element.get('title')} onBlur={this.onTitleBlur} onChange={this.onTitleChange} />;
         }
 
-        return <label onClick={this.onLabelClick}>{title}</label>;
+        return <label onClick={this.onLabelClick}>{element.get('title')}</label>;
 
     },
     onPlaceholderChange(event) {
-        this.props.setElementPlaceholder(this.props.id, event.target.value);
+        this.props.setElementPlaceholder(this.props.element.get('id'), event.target.value);
     },
 
     onTitleBlur(e) {
@@ -33,7 +33,7 @@ export default React.createClass({
     },
 
     onTitleChange(event) {
-        this.props.setElementTitle(this.props.id, event.target.value);
+        this.props.setElementTitle(this.props.element.get('id'), event.target.value);
     },
 
     onLabelClick(e) {
@@ -42,11 +42,11 @@ export default React.createClass({
         });
     },
     render() {
-        const { placeholder } = this.props;
+        const { element } = this.props;
         return (
             <div className="page-content_input">
                 {this.getLabel()}
-                <textarea value={placeholder} onChange={this.onPlaceholderChange}/>
+                <textarea value={element.get('placeholder')} onChange={this.onPlaceholderChange}/>
             </div>
         );
     }

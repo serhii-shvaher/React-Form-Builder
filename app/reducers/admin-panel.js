@@ -3,6 +3,7 @@ import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/clone';
 import merge from 'lodash/merge';
 import { LOCATION_CHANGE } from 'react-router-redux';
+import Immutable from 'immutable';
 
 import {
     PRODUCT_ADD_PAGE,
@@ -17,7 +18,7 @@ import {
 import { ELEMENT_SET_TITLE, ELEMENT_SET_PLACEHOLDER } from './../actions/element';
 
 const defaultState = {
-    adminPanel: {
+    adminPanel: Immutable.fromJS({
         product: {
             name: 'Product name',
             pages: [{
@@ -26,11 +27,16 @@ const defaultState = {
             }]
         },
         selectedPageIndex: 0
-    }
+    })
 };
 
 export default function (state = defaultState, action) {
-    const pages = cloneDeep(state.adminPanel.product.pages);
+    const pages = state.adminPanel.get('product').get('pages');
+    const selectedPageIndex = state.adminPanel.get('selectedPageIndex');
+    const updatedProduct = {};
+    const updatedPages = {};
+    const updatedPage = {};
+    const updatedPageElements = {};
 
     switch (action.type) {
 
@@ -56,89 +62,94 @@ export default function (state = defaultState, action) {
                 }
 
                 // check if product with productId exists
-                productIndex = findIndex(state.products, { id: productId });
+                productIndex = state.products.findEntry((p => p.get('id') === productId));
 
-                if (productIndex === -1) {
+                if (!productIndex) {
                     alert('Product not found');
                     return state.adminPanel;
                 }
 
-                return {
-                    product: state.products[productIndex],
+                return Immutable.fromJS({
+                    product: state.products.get(productIndex[0]),
                     selectedPageIndex: 0
-                };
+                });
             }
 
             return state.adminPanel;
 
         case PRODUCT_SET_NAME:
-            const product = cloneDeep(state.adminPanel.product);
+            updatedProduct.v1 = state.adminPanel.get('product').set('name', action.name);
 
-            product.name = action.name;
-
-            return merge({}, state.adminPanel, {
-                product: product
-            });
+            return state.adminPanel.set('product', updatedProduct.v1);
 
         case PRODUCT_ADD_PAGE:
-            return merge({}, state.adminPanel, {
-                product: {
-                    pages: pages.concat({
-                        title: `Page ${state.adminPanel.product.pages.length + 1}`,
-                        elements: []
-                    })
-                }
-            });
+            updatedPages.v1 = pages.push(Immutable.fromJS({
+                title: `Page ${state.adminPanel.get('product').get('pages').size + 1}`,
+                elements: []
+            }));
+
+            updatedProduct.v1 = state.adminPanel.get('product').set('pages', updatedPages.v1);
+
+            return state.adminPanel.set('product', updatedProduct.v1);
 
         case PRODUCT_DELETE_PAGE:
-            pages.pop();
+            updatedPages.v1 = pages.pop();
 
-            return Object.assign({}, state.adminPanel, {
-                product: {
-                    pages
-                },
-                selectedPageIndex: Math.min(pages.length - 1, state.adminPanel.selectedPageIndex)
+            updatedProduct.v1 = state.adminPanel.get('product').set('pages', updatedPages.v1);
+
+
+            return state.adminPanel.merge({
+                product: updatedProduct.v1,
+                selectedPageIndex: Math.min(pages.size - 1, selectedPageIndex)
             });
 
         case PRODUCT_SELECT_PAGE:
-            return merge({}, state.adminPanel, {
-                selectedPageIndex: action.index
-            });
+            return state.adminPanel.set('selectedPageIndex', action.index);
 
         case PRODUCT_PAGE_SET_TITLE:
-            pages[action.pageIndex].title = action.title;
+            updatedPage.v1 = pages.get(action.pageIndex).set('title', action.title);
+            updatedPages.v1 = pages.set(action.pageIndex, updatedPage.v1);
+            updatedProduct.v1 = state.adminPanel.get('product').set('pages', updatedPages.v1);
 
-            return merge({}, state.adminPanel, {
-                product: {
-                    pages
-                }
-            });
+            return state.adminPanel.set('product', updatedProduct.v1);
 
         case PRODUCT_PAGE_ADD_INPUT:
         case PRODUCT_PAGE_ADD_TEXTAREA:
-            pages[state.adminPanel.selectedPageIndex].elements.push({
-                id: uuid.v4(),
-                type: action.elementType,
-                title: 'title',
-                placeholder: 'placeholder'
-            });
+            updatedPageElements.v1 = pages
+                .get(selectedPageIndex)
+                .get('elements')
+                .push(Immutable.fromJS({
+                    id: uuid.v4(),
+                    type: action.elementType,
+                    title: 'title',
+                    placeholder: 'placeholder'
+                }));
 
-            return merge({}, state.adminPanel, {
-                product: {
-                    pages
-                }
-            });
+            updatedPage.v1 = pages
+                .get(selectedPageIndex)
+                .set('elements', updatedPageElements.v1);
+
+            updatedPages.v1 = pages.set(selectedPageIndex, updatedPage.v1);
+            updatedProduct.v1 = state.adminPanel.get('product').set('pages', updatedPages.v1);
+
+            return state.adminPanel.set('product', updatedProduct.v1);
 
         case ELEMENT_SET_TITLE:
         case ELEMENT_SET_PLACEHOLDER:
-            const elementIndex = findIndex(pages[state.adminPanel.selectedPageIndex].elements, {id: action.elementID});
-            pages[state.adminPanel.selectedPageIndex].elements[elementIndex][action.option] = action[action.option];
+            const updatedElement = {};
+            updatedElement.v1 = pages
+                .get(selectedPageIndex)
+                .get('elements')
+                .findEntry((e => (e.get('id') === action.elementID)));
 
-            return merge({}, state.adminPanel, {
-                product: {
-                    pages
-                }
-            });
+            updatedElement.v2 = updatedElement.v1[1].set(action.option, action[action.option]);
+            
+            updatedPageElements.v1 = pages.get(selectedPageIndex).get('elements').set(updatedElement.v1[0], updatedElement.v2);
+            updatedPage.v1 = pages.get(selectedPageIndex).set('elements', updatedPageElements.v1);
+            updatedPages.v1 = state.adminPanel.get('product').get('pages').set(selectedPageIndex, updatedPage.v1);
+            updatedProduct.v1 = state.adminPanel.get('product').set('pages', updatedPages.v1);
+
+            return state.adminPanel.set('product', updatedProduct.v1);
 
         default:
             return state.adminPanel;

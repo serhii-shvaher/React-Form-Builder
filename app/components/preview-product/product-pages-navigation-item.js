@@ -14,7 +14,7 @@ export default React.createClass({
         });
         return (
             <div className={classes}>
-                {page.title}
+                {page.get('title')}
             </div>
         );
     }
